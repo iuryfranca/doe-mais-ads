@@ -13,13 +13,13 @@ public class Doacao{
   public int? IdEntidadeDoadorFk { get; set; }
 
   [ForeignKey("IdEntidadeDoadorFk")]
-  public EntidadeDoador? EntidadeDoador{ get; set;}
+  public Entidade? EntidadeDoador{ get; set;}
 
   [Column("id_entidade_recebedor_fk")]
   public int? IdEntidadeRecebedorFk { get; set; }
 
   [ForeignKey("IdEntidadeRecebedorFk")]
-  public EntidadeRecebedor? EntidadeRecebedor{ get; set;}
+  public Entidade? EntidadeRecebedor{ get; set;}
 
   [Column("id_campanha_doacao_fk")]
   public int? IdCampanhaDoacaoFk { get; set; }

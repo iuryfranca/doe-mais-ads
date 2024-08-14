@@ -21,7 +21,7 @@ public class CampanhaDoacao{
   public int? IdCriadorFk { get; set; }
 
   [ForeignKey("IdCriadorFk")]
-  public Criador? Criador { get; set;}
+  public Entidade? Criador { get; set;}
   
 }
 
