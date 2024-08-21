@@ -1,3 +1,7 @@
+using doe_mais_ads.Service
+using doe_mais_ads.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace doe_mais_ads.Service
 {
   public class DoacoesService
@@ -9,6 +13,5 @@ namespace doe_mais_ads.Service
       _context = con;
     }
 
-    pub
   }
 }
