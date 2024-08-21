@@ -9,4 +9,9 @@ public class ContextoBD: DbContext
   public DbSet<Doacao> Doacoes { get; set; }
   public DbSet<ItemDoacao> ItensDoacoes { get; set; }
   public DbSet<CampanhaDoacao> CampanhasDoacoes { get; set; }
+
+    internal async Task SaveChangesAsync()
+    {
+        throw new NotImplementedException();
+    }
 }
