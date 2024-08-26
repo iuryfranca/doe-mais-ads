@@ -1,12 +1,12 @@
-﻿@page "/entidades"
+﻿@page "/campanhas"
 @using BlazorInputMask;
 @inject IJSRuntime JS
 
-<PageTitle>Entidades</PageTitle>
+<PageTitle>Campanha</PageTitle>
 
 <div class="flex flex-col gap-4 h-full">
     <div class="w-full bg-zinc-100 p-4 rounded-lg flex flex-col gap-3">
-        <span class="text-2xl font-bold">Entidades</span>
+        <span class="text-2xl font-bold">Campanhas</span>
         <span class="text-sm font-normal text-gray-500">
             @* Descrição *@
             Cadastre-se aqui para registrar doadores e receptores de itens em nosso sistema de doações. Se você é um
@@ -18,11 +18,11 @@
 
     <div class="flex flex-col gap-6">
         <div class="flex flex-row gap-4 h-24">
-            <button data-modal-target="new--modal" data-modal-toggle="new--modal"
+            <button data-modal-target="new-entity-modal" data-modal-toggle="new-entity-modal"
                 class="relative items-center drop-shadow-md justify-center p-1 flex overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                 <span
                     class="relative w-60 p-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Nova Entidade
+                    Nova Campanha
                 </span>
             </button>
 
@@ -75,99 +75,37 @@
             @if(entities.Count == 0)
             {
                 <div class="h-40 flex w-full justify-center items-center text-start">
-                    <div class="text-base font-semibold text-gray-500">
+                    <div class="text-lg font-semibold text-gray-500">
                         Nenhuma entidade cadastrada
                     </div>
                 </div>
             } else {                
             foreach (var item in entities)
                 {
-                    <div class="flex flex-col gap-8 bg-zinc-100 p-3 rounded-lg">                        
-                        <div class="flex flex-row gap-8 h-full p-3">
-                            <div class="text-start flex gap-1 flex-col">
-                                <div class="text-base font-normal text-gray-600">
-                                    Tipo
-                                </div>
-                                <div class="py-1 px-3 group bg-gradient-to-br from-green-400 to-blue-600 rounded-md text-white">
-                                    @if( item.IsFisica ) {
-                                        <span class="text-sm font-semibold">Pessoa Física</span>
-                                    } else {
-                                        <span class="text-sm font-semibold">Pessoa Jurídica</span>
-                                    }
-                                </div>
+                    <div class="flex flex-row gap-4 h-72 bg-zinc-100 p-6 rounded-lg">
+                        <div class="flex-1 text-start">
+                            <div class="text-base font-normal text-gray-600">
+                                Tipo
                             </div>
-
-                            @if( item.IsFisica ) {
-                                <div class="text-start flex gap-1 flex-col">
-                                    <div class="text-base font-normal text-gray-600">
-                                        Nome
-                                    </div>
-                                    <div class="text-base font-semibold py-1 w-56">
-                                        @item.Name
-                                    </div>
-                                </div>
-                                <div class="text-start flex gap-1 flex-col">
-                                    <div class="text-base font-normal text-gray-600">
-                                        CPF
-                                    </div>
-                                    <div class="text-base font-semibold py-1">
-                                        @item.Cpf
-                                    </div>
-                                </div>                  
-                            } else {
-                                <div class="text-start flex gap-1 flex-col">
-                                    <div class="text-base font-normal text-gray-600">
-                                        Nome Fantasia
-                                    </div>
-                                    <div class="text-base font-semibold py-1 line-clamp-1 w-56">
-                                        @item.NameFantasy
-                                    </div>
-                                </div>     
-
-                                <div class="text-start flex gap-1 flex-col">
-                                    <div class="text-base font-normal text-gray-600">
-                                        CNPJ
-                                    </div>
-                                    <div class="text-base font-semibold py-1">
-                                        @item.Cnpj
-                                    </div>
-                                </div>                 
-                            }
-
-                            <div class="text-start flex gap-1 flex-col">
-                                <div class="text-base font-normal text-gray-600">
-                                    Email
-                                </div>
-                                <div class="text-base font-semibold py-1">
-                                    @item.Email
-                                </div>
-                            </div>
-
-                            <div class="text-start flex gap-1 flex-col">
-                                <div class="text-base font-normal text-gray-600">
-                                    Telefone
-                                </div>
-                                <div class="text-base font-semibold py-1">
-                                    @item.Telefone
-                                </div>
+                            <div class="text-lg font-semibold">
+                                Pessoa Física
                             </div>
                         </div>
-
-                        <div class="flex w-full justify-end">
-                            <div class="bg-white rounded-md p-3 flex gap-6 flex-row justify-center items-center">
-                                <button class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-blue-600 group-hover:from-zinc-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
-                                    <span
-                                        class="relative p-1 px-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-sm group-hover:bg-opacity-0">
-                                        Editar Entidade
-                                    </span>
-                                </button>
-                                
-                                <button class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-red-600 group-hover:from-zinc-400 group-hover:to-red-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
-                                    <span
-                                        class="relative p-1 px-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-sm group-hover:bg-opacity-0">
-                                        Excluir Entidade
-                                    </span>
-                                </button>
+                        <div class="flex-1 text-start">
+                            <div class="text-base font-normal text-gray-600">
+                                Nome
+                            </div>
+                            <div class="text-lg font-semibold">
+                                @item.Name
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 text-start">
+                            <div class="text-base font-normal text-gray-600">
+                                Nome Fantasia
+                            </div>
+                            <div class="text-lg font-semibold">
+                                @item.NameFantasy
                             </div>
                         </div>
                     </div>
@@ -176,7 +114,7 @@
         </div>
     </div>
 
-    <div id="new--modal" tabindex="-1" aria-hidden="true"
+    <div id="new-entity-modal" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -186,7 +124,7 @@
                     </h3>
                     <button type="button"
                         class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="new--modal">
+                        data-modal-hide="new-entity-modal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -291,6 +229,13 @@
     </div>
 </div>
 
+<script>
+    window.initializeFlowbite = () => {
+        initFlowbite();
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+
 @code {
     protected override async Task OnAfterRenderAsync(bool isFirstRender) {
         if (isFirstRender){
@@ -300,7 +245,6 @@
 
     public class Entity
     {
-        public bool IsFisica { get; set; }
         public string Name { get; set; }
         public string NameFantasy { get; set; }
         public string Cpf { get; set; }
@@ -317,6 +261,12 @@
     private bool disableCheckFisica = true;
 
     private List<Entity> entities = new List<Entity>();
+
+    protected override async void OnInitialized()
+    {
+        await JS.InvokeVoidAsync("initializeFlowbite");
+        
+    }
 
     private void onChangeCheckboxJuridica()
     {
@@ -336,7 +286,6 @@
         Console.WriteLine("SaveEntity");
 
         entities.Add(new Entity(){
-            IsFisica = checkFisica,
             Name = entity.Name,
             NameFantasy = entity.NameFantasy,
             Cpf = entity.Cpf,
