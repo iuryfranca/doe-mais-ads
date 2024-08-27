@@ -1,5 +1,4 @@
-using doe_mais_ads.Service
-using doe_mais_ads.Models;
+using doe_mais_ads.Service;
 using Microsoft.EntityFrameworkCore;
 
 namespace doe_mais_ads.Services
@@ -13,15 +12,15 @@ namespace doe_mais_ads.Services
       _context = con;
     }
 
-    public async Task<List<Camapanha>>? Campanhas()
+    public async Task<List<CampanhaDoacao>>? Campanhas()
     {
-      var camp = await _context.Campanhas.Include(c=>c.Campanha).ToListAsync();
+      var camp = await _context.CampanhasDoacoes.Include(c=>c.Criador).ToListAsync();
       return camp;
     }
 
-    public async Task<CampanhaService>? GetCampanha(string id)
+    public async Task<CampanhaDoacao>? GetCampanha(int id)
     {
-      var camp = await _context.Campanhas.Include(c=>c.Campanha).Where(c=>c.Id == id).FirstOrDefaultAsync();
+      var camp = await _context.CampanhasDoacoes.Include(c=>c.Criador).Where(c=>c.Id == id).FirstOrDefaultAsync();
       return camp;
     }
 

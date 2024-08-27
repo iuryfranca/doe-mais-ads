@@ -1,6 +1,3 @@
-using doe_mais_ads.Service
-using doe_mais_ads.Models;
-using doe_mais_ads.Contexto;
 using Microsoft.EntityFrameworkCore;
 
 namespace doe_mais_ads.Service
@@ -16,7 +13,7 @@ namespace doe_mais_ads.Service
 
   }
 
-  public async Task<List<Doacoes>>? Doacoes()
+  public async Task<List<Doacao>>? Doacoes()
   {
     var doacoes = await _context.Doacoes().Include(i=>i.Doacoes).ToListAsync();
     return doacoes;
