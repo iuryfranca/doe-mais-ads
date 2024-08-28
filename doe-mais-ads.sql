@@ -22,7 +22,7 @@ create table item
     created_at timestamp default current_timestamp
 );
 
-create table campanha_doacao
+create table campanha
 (
     id            int primary key,
     nome          varchar(50) not null,

@@ -1,44 +1,73 @@
-using doe_mais_ads.Service
-using doe_mais_ads.Models;
 using Microsoft.EntityFrameworkCore;
 
-
-namespace doe_mais_ads.Service 
+namespace doe_mais_ads.Service
 {
-  public class EntidadeService
-  {
-    private readonly ContextoBD _contexto;
-
-    public EntidadeService(ContextoBD con)
+    public class EntidadeService
     {
-      _contexto = con;
-    }
+        private readonly ContextoBD _context;
 
-    public async Task<List<Entidade>>? Entidade()
-    {
-      var entidades = await _contexto.Entidade.Include(e=>e.Entidade).ToListAsync();
-      return entidades;
-    }
+        public EntidadeService(ContextoBD con)
+        {
+            _context = con;
+        }
 
-    public async Task<Entidade>? GetEntidade(string entidade)
-    {
-      var entidade = await _context.Entidade(e=>e.Entidade).Where(e=>e.Nome = nome).FirstOrDefaultAsunc();
-      return entidade;
-    }
+        public async Task<List<Entidade>>? GetAllEntidades()
+        {
+            return await _context.Entidade.ToListAsync();
+        }
 
-    public async Task Add(Entidade entidade)
-    {
-      if (entidade != null)
-      {
-        await _contexto.Entidades.AddAsync(entidade);
-      }
-    }
+        public async Task<List<Entidade>> GetPesquisaEntidade(string pesquisa)
+        {
+            return await _context
+                .Entidade.Where(c =>
+                    (c.Nome != null && c.Nome.Contains(pesquisa))
+                    || (c.Email != null && c.Email.Contains(pesquisa))
+                    || (c.Cpf != null && c.Cpf.Contains(pesquisa))
+                    || (c.NomeFantasia != null && c.NomeFantasia.Contains(pesquisa))
+                    || (c.Cnpj != null && c.Cnpj.Contains(pesquisa))
+                )
+                .ToListAsync();
+        }
 
-    public async Task Salvar()
-    {
-      await _contexto.SaveChangesAsync();
-    }
-    
+        public async Task<Entidade?> GetEntidade(int id)
+        {
+            return await _context.Entidade.Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
 
-  }
+        public async Task Add(Entidade entidade)
+        {
+            if (entidade != null)
+            {
+                await _context.Entidade.AddAsync(entidade);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentNullException("Entidade não pode ser nula");
+            }
+        }
+
+        public async Task Update(Entidade entidade)
+        {
+            if (entidade != null)
+            {
+                _context.Entidade.Update(entidade);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentNullException("Entidade não pode ser nula");
+            }
+        }
+
+        public async Task Delete(int id)
+        {
+            var entidade = await _context.Entidade.Where(e => e.Id == id).FirstOrDefaultAsync();
+            if (entidade != null)
+            {
+                _context.Entidade.Remove(entidade);
+                await _context.SaveChangesAsync();
+            }
+        }
+    }
 }
