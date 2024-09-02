@@ -1,3 +1,5 @@
+using doe_mais_ads.Context;
+using doe_mais_ads.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace doe_mais_ads.Service
@@ -45,7 +47,7 @@ namespace doe_mais_ads.Service
         {
             if (doacoes != null)
             {
-                _context.Doacoes.Update(doacoes);
+                _context.Update(doacoes);
                 await _context.SaveChangesAsync();
             }
             else

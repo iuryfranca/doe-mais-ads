@@ -1,3 +1,5 @@
+using doe_mais_ads.Context;
+using doe_mais_ads.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace doe_mais_ads.Service
@@ -11,15 +13,15 @@ namespace doe_mais_ads.Service
             _context = con;
         }
 
-        public async Task<List<Entidade>>? GetAllEntidades()
+        public async Task<List<Entity>> GetAllEntidades()
         {
-            return await _context.Entidade.ToListAsync();
+            return await _context.Entities.ToListAsync();
         }
 
-        public async Task<List<Entidade>> GetPesquisaEntidade(string pesquisa)
+        public async Task<List<Entity>> GetPesquisaEntidade(string pesquisa)
         {
             return await _context
-                .Entidade.Where(c =>
+                .Entities.Where(c =>
                     (c.Nome != null && c.Nome.Contains(pesquisa))
                     || (c.Email != null && c.Email.Contains(pesquisa))
                     || (c.Cpf != null && c.Cpf.Contains(pesquisa))
@@ -29,43 +31,53 @@ namespace doe_mais_ads.Service
                 .ToListAsync();
         }
 
-        public async Task<Entidade?> GetEntidade(int id)
+        public async Task<Entity?> GetEntidade(int id)
         {
-            return await _context.Entidade.Where(e => e.Id == id).FirstOrDefaultAsync();
+            return await _context.Entities.Where(e => e.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task Add(Entidade entidade)
+        public async Task AddEntidade(Entity entidade)
         {
             if (entidade != null)
             {
-                await _context.Entidade.AddAsync(entidade);
+                await _context.Entities.AddAsync(entidade);
                 await _context.SaveChangesAsync();
             }
             else
             {
-                throw new ArgumentNullException("Entidade não pode ser nula");
+                throw new ArgumentNullException("Entity não pode ser nula");
             }
         }
 
-        public async Task Update(Entidade entidade)
+        public async Task UpdateEntidade(Entity entidade)
         {
-            if (entidade != null)
+            var entityToUpdate = await _context
+                .Entities.Where(e => e.Id == entidade.Id)
+                .FirstOrDefaultAsync();
+
+            if (entityToUpdate == null)
             {
-                _context.Entidade.Update(entidade);
-                await _context.SaveChangesAsync();
+                throw new ArgumentNullException("Entity não encontrada");
             }
-            else
-            {
-                throw new ArgumentNullException("Entidade não pode ser nula");
-            }
+
+            entityToUpdate.Nome = entidade.Nome;
+            entityToUpdate.NomeFantasia = entidade.NomeFantasia;
+            entityToUpdate.Cpf = entidade.Cpf;
+            entityToUpdate.Cnpj = entidade.Cnpj;
+            entityToUpdate.Email = entidade.Email;
+            entityToUpdate.Telefone = entidade.Telefone;
+            entityToUpdate.IsPessoaFisica = entidade.IsPessoaFisica;
+
+            _context.Update(entityToUpdate);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteEntidade(int id)
         {
-            var entidade = await _context.Entidade.Where(e => e.Id == id).FirstOrDefaultAsync();
+            var entidade = await _context.Entities.Where(e => e.Id == id).FirstOrDefaultAsync();
             if (entidade != null)
             {
-                _context.Entidade.Remove(entidade);
+                _context.Entities.Remove(entidade);
                 await _context.SaveChangesAsync();
             }
         }

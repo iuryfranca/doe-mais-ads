@@ -1,17 +1,16 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table ("item")]
-public class Item{
-  [Column("id")]
-  public int? Id { get; set; }
+namespace doe_mais_ads.Models;
 
-  [Column("nome")]
-  public string? Nome { get; set; }
+[Table("item")]
+public class Item
+{
+    [Column("id")]
+    public int? Id { get; set; }
 
-  [Column("descricao")]
-  public string? Descricao { get; set;}
+    [Column("nome")]
+    public string? Nome { get; set; }
 
-  
+    [Column("descricao")]
+    public string? Descricao { get; set; }
 }
-
-

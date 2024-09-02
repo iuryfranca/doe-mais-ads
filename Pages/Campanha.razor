@@ -262,12 +262,6 @@
 
     private List<Entity> entities = new List<Entity>();
 
-    protected override async void OnInitialized()
-    {
-        await JS.InvokeVoidAsync("initializeFlowbite");
-        
-    }
-
     private void onChangeCheckboxJuridica()
     {
         checkFisica = false;

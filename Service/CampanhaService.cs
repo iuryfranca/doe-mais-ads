@@ -1,7 +1,8 @@
-using doe_mais_ads.Service;
+using doe_mais_ads.Context;
+using doe_mais_ads.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace doe_mais_ads.Services
+namespace doe_mais_ads.Service
 {
     public class CampanhaService
     {
@@ -53,7 +54,7 @@ namespace doe_mais_ads.Services
         {
             if (campanha != null)
             {
-                _context.Campanhas.Update(campanha);
+                _context.Update(campanha);
                 await _context.SaveChangesAsync();
             }
             else

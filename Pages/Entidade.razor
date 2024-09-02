@@ -2,6 +2,11 @@
 @using BlazorInputMask;
 @inject IJSRuntime JS
 
+@using doe_mais_ads.Models;
+@using doe_mais_ads.Service;
+
+@inject EntidadeService entidadeService;
+
 <PageTitle>Entidades</PageTitle>
 
 <div class="flex flex-col gap-4 h-full">
@@ -18,7 +23,7 @@
 
     <div class="flex flex-col gap-6">
         <div class="flex flex-row gap-4 h-24">
-            <button data-modal-target="new--modal" data-modal-toggle="new--modal"
+            <button data-modal-target="new-entity-modal" data-modal-toggle="new-entity-modal"
                 class="relative items-center drop-shadow-md justify-center p-1 flex overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                 <span
                     class="relative w-60 p-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -89,7 +94,7 @@
                                     Tipo
                                 </div>
                                 <div class="py-1 px-3 group bg-gradient-to-br from-green-400 to-blue-600 rounded-md text-white">
-                                    @if( item.IsFisica ) {
+                                    @if( item.IsPessoaFisica ) {
                                         <span class="text-sm font-semibold">Pessoa Física</span>
                                     } else {
                                         <span class="text-sm font-semibold">Pessoa Jurídica</span>
@@ -97,13 +102,13 @@
                                 </div>
                             </div>
 
-                            @if( item.IsFisica ) {
+                            @if( item.IsPessoaFisica ) {
                                 <div class="text-start flex gap-1 flex-col">
                                     <div class="text-base font-normal text-gray-600">
                                         Nome
                                     </div>
                                     <div class="text-base font-semibold py-1 w-56">
-                                        @item.Name
+                                        @item.Nome
                                     </div>
                                 </div>
                                 <div class="text-start flex gap-1 flex-col">
@@ -120,7 +125,7 @@
                                         Nome Fantasia
                                     </div>
                                     <div class="text-base font-semibold py-1 line-clamp-1 w-56">
-                                        @item.NameFantasy
+                                        @item.NomeFantasia
                                     </div>
                                 </div>     
 
@@ -151,18 +156,20 @@
                                     @item.Telefone
                                 </div>
                             </div>
+
+                            @item.Id
                         </div>
 
                         <div class="flex w-full justify-end">
                             <div class="bg-white rounded-md p-3 flex gap-6 flex-row justify-center items-center">
-                                <button class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-blue-600 group-hover:from-zinc-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
+                                <button @onclick="() => openModalUpdateEntity(item)" data-modal-target="new-entity-modal" data-modal-toggle="new-entity-modal" class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-blue-600 group-hover:from-zinc-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
                                     <span
                                         class="relative p-1 px-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-sm group-hover:bg-opacity-0">
                                         Editar Entidade
                                     </span>
                                 </button>
                                 
-                                <button class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-red-600 group-hover:from-zinc-400 group-hover:to-red-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
+                                <button @onclick="() => deleteEntity(item)"  class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-red-600 group-hover:from-zinc-400 group-hover:to-red-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
                                     <span
                                         class="relative p-1 px-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-sm group-hover:bg-opacity-0">
                                         Excluir Entidade
@@ -176,7 +183,7 @@
         </div>
     </div>
 
-    <div id="new--modal" tabindex="-1" aria-hidden="true"
+    <div id="new-entity-modal" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -186,7 +193,7 @@
                     </h3>
                     <button type="button"
                         class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="new--modal">
+                        data-modal-hide="new-entity-modal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -196,7 +203,7 @@
                     </button>
                 </div>
                 <div class="p-4 md:p-5">
-                    <form class="space-y-4" @onsubmit="SaveEntity">
+                    <form class="space-y-4" @onsubmit="SaveOrUpdateEntity">
                         <ul
                             class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -227,7 +234,7 @@
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Nome
                             </label>
-                            <input name="name" id="name" @bind="entity.Name"
+                            <input name="name" id="name" @bind="entity.Nome"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                 placeholder="Nome..." required />
                         </div>
@@ -247,7 +254,7 @@
                                 <label for="nameFantasy" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Nome fantasia
                                 </label>
-                                <input name="nameFantasy" id="nameFantasy" @bind="entity.NameFantasy"
+                                <input name="nameFantasy" id="nameFantasy" @bind="entity.NomeFantasia"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Nome fantasia..." required />
                             </div>
@@ -280,10 +287,17 @@
                                     placeholder="(00) 0 0000-0000" required />
                             </div>
 
-                        <button type="submit"
-                            class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            Salvar Entidade
-                        </button>
+                            @if(isUpdate) {
+                                <button type="submit" data-modal-hide="new-entity-modal"
+                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <span>Atualizar Entidade</span>
+                                </button>
+                            } else {
+                                <button type="submit"
+                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <span>Cadastrar Entidade</span>
+                                </button>
+                            }
                     </form>
                 </div>
             </div>
@@ -298,21 +312,16 @@
         }
     }
 
-    public class Entity
+    protected override async Task OnInitializedAsync()
     {
-        public bool IsFisica { get; set; }
-        public string Name { get; set; }
-        public string NameFantasy { get; set; }
-        public string Cpf { get; set; }
-        public string Cnpj { get; set; }
-        public string Email { get; set; }
-        public string Telefone { get; set; }
+        await getAllEntities();
     }
 
     public Entity entity = new Entity();
     private bool checkJuridica = false;
     private bool disableCheckJuridica = false;
 
+    private bool isUpdate = false;
     private bool checkFisica = true;
     private bool disableCheckFisica = true;
 
@@ -331,29 +340,66 @@
         disableCheckFisica = true;
     }
 
-    private async Task SaveEntity()
+    private void openModalUpdateEntity(Entity entityUpdate)
     {
-        Console.WriteLine("SaveEntity");
+        entity.Id = entityUpdate.Id;
+        entity.Nome = entityUpdate.Nome;
+        entity.NomeFantasia = entityUpdate.NomeFantasia;
+        entity.Cpf = entityUpdate.Cpf;
+        entity.Cnpj = entityUpdate.Cnpj;
+        entity.Email = entityUpdate.Email;
+        entity.Telefone = entityUpdate.Telefone;
+        entity.IsPessoaFisica = entityUpdate.IsPessoaFisica;
+    }
 
-        entities.Add(new Entity(){
-            IsFisica = checkFisica,
-            Name = entity.Name,
-            NameFantasy = entity.NameFantasy,
-            Cpf = entity.Cpf,
-            Cnpj = entity.Cnpj,
-            Email = entity.Email,
-            Telefone = entity.Telefone
-        });
+    private async Task SaveOrUpdateEntity()
+    {   
+        if(entity.Id != null && entity.Id > 0)
+        {
+            Console.WriteLine("Update");
+            isUpdate = true;
+            await entidadeService.UpdateEntidade(entity);
+        } else {
+            var newEntity = new Entity()
+            {
+                Nome = entity.Nome,
+                NomeFantasia = entity.NomeFantasia,
+                Cpf = entity.Cpf,
+                Cnpj = entity.Cnpj,
+                Email = entity.Email,
+                Telefone = entity.Telefone,
+                IsPessoaFisica = checkFisica
+            };
 
+            await entidadeService.AddEntidade(newEntity);
+        }
+
+        isUpdate = false;
+
+        await getAllEntities();
         clearEntityInputs();
     }
 
+    private async Task deleteEntity(Entity entity)
+    {
+        await entidadeService.DeleteEntidade(entity.Id!.Value);
+        await getAllEntities();
+    }
+
+    private async Task getAllEntities()
+    {   
+        entities = [];
+
+        entities = await entidadeService.GetAllEntidades();
+    }
+
     private void clearEntityInputs() {
-        entity.Name = "";
-        entity.NameFantasy = "";
+        entity.Nome = "";
+        entity.NomeFantasia = "";
         entity.Cpf = "";
         entity.Cnpj = "";
         entity.Email = "";
         entity.Telefone = "";
+        entity.IsPessoaFisica = true;
     }
 }

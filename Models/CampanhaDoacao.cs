@@ -1,28 +1,28 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table ("campanha_doacao")]
-public class CampanhaDoacao{
-  [Column("id")]
-  public int? Id { get; set; }
+namespace doe_mais_ads.Models;
 
-  [Column("nome")]
-  public string? Nome { get; set; }
+[Table("campanha_doacao")]
+public class CampanhaDoacao
+{
+    [Column("id")]
+    public int? Id { get; set; }
 
-  [Column("descricao")]
-  public string? Descricao { get; set;}
+    [Column("nome")]
+    public string? Nome { get; set; }
 
-  [Column("data_inicio")]
-  public DateTime? DataInicio { get; set; }
+    [Column("descricao")]
+    public string? Descricao { get; set; }
 
-  [Column("data_fim")]
-  public DateTime? DataFim { get; set; }
+    [Column("data_inicio")]
+    public DateTime? DataInicio { get; set; }
 
-  [Column("id_criador_fk")]
-  public int? IdCriadorFk { get; set; }
+    [Column("data_fim")]
+    public DateTime? DataFim { get; set; }
 
-  [ForeignKey("IdCriadorFk")]
-  public Entidade? Criador { get; set;}
-  
+    [Column("id_criador_fk")]
+    public int? IdCriadorFk { get; set; }
+
+    [ForeignKey("IdCriadorFk")]
+    public Entity? Criador { get; set; }
 }
-
-

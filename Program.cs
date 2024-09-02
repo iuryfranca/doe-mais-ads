@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Components;
-
-
-
-
-using Microsoft.AspNetCore.Components.Web;
+using doe_mais_ads.Context;
 using doe_mais_ads.Data;
+using doe_mais_ads.Service;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+// Injeção de dependências
+builder.Services.AddScoped<EntidadeService>();
+builder.Services.AddScoped<CampanhaService>();
+builder.Services.AddScoped<DoacoesService>();
+builder.Services.AddScoped<ItemService>();
+
+string mySqlConnectionStr = builder.Configuration.GetConnectionString("DefaultConnection")!;
+
+builder.Services.AddDbContextPool<ContextoBD>(options =>
+    options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr))
+);
 
 var app = builder.Build();
 
