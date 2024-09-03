@@ -4,7 +4,7 @@ use bd_doe_mais_ads;
 
 create table entidade
 (
-    id            int primary key,
+    id            int primary key  auto_increment,
     nome          varchar(50) not null,
     nome_fantasia varchar(50),
     cpf           varchar(11),
@@ -17,7 +17,7 @@ create table entidade
 
 create table item
 (
-    id         int primary key,
+    id         int primary key  auto_increment,
     nome       varchar(50) not null,
     descricao  varchar(400),
     created_at timestamp default current_timestamp
@@ -25,7 +25,7 @@ create table item
 
 create table campanha
 (
-    id            int primary key,
+    id            int primary key  auto_increment,
     nome          varchar(50) not null,
     descricao     varchar(400),
     data_inicio   date        not null,
@@ -38,7 +38,7 @@ create table campanha
 
 create table doacao
 (
-    id                       int primary key,
+    id                       int primary key auto_increment,
     descricao                varchar(400),
     id_entidade_doador_fk    int,
     foreign key (id_entidade_doador_fk) references entidade (id),
@@ -50,10 +50,14 @@ create table doacao
 
 create table item_doacao
 (
-    id           int primary key,
+    id           int primary key  auto_increment,
     quantidade   int,
     id_doacao_fk int,
     foreign key (id_doacao_fk) references doacao (id),
     id_item_fk   int,
     foreign key (id_item_fk) references item (id)
 );
+
+
+
+
