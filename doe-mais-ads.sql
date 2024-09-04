@@ -5,12 +5,12 @@ use bd_doe_mais_ads;
 create table entidade
 (
     id            int primary key  auto_increment,
-    nome          varchar(50) not null,
+    nome          varchar(50),
     nome_fantasia varchar(50),
-    cpf           varchar(11),
-    cnpj          varchar(14),
+    cpf           varchar(14),
+    cnpj          varchar(18),
     email         varchar(50) not null,
-    telefone      varchar(11),
+    telefone      varchar(16),
     is_pessoa_fisica boolean not null,
     created_at    timestamp default current_timestamp
 );
@@ -57,7 +57,3 @@ create table item_doacao
     id_item_fk   int,
     foreign key (id_item_fk) references item (id)
 );
-
-
-
-
