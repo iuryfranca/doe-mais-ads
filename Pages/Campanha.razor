@@ -1,1 +1,358 @@
-﻿
+﻿@page "/campanhas"
+@using BlazorInputMask;
+@inject IJSRuntime JS
+
+@using doe_mais_ads.Models;
+@using doe_mais_ads.Service;
+
+@inject CampanhaService campanhaService;
+@inject EntidadeService entidadeService;
+
+<PageTitle>Campanhas</PageTitle>
+
+<div class="flex flex-col gap-4 h-full">
+  <div class="w-full bg-zinc-100 p-4 rounded-lg flex flex-col gap-3">
+    <span class="text-2xl font-bold">Campanhas</span>
+    <span class="text-sm font-normal text-gray-500">
+      @* Descrição *@ Cadastre-se aqui para registrar doadores e receptores de
+      itens em nosso sistema de doações. Se você é um doador, forneça suas
+      informações para que possamos coordenar a doação. Se você é um receptor,
+      informe suas necessidades para receber o suporte adequado. O cadastro
+      ajuda a garantir que as doações sejam bem direcionadas e reconhecidas.
+      Preencha o formulário abaixo e faça a diferença!
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-6">
+    <div class="flex flex-row gap-4 h-24">
+      <button data-modal-target="new-entity-modal" data-modal-toggle="new-entity-modal"
+        class="relative items-center drop-shadow-md justify-center p-1 flex overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+        <span
+          class="relative w-60 p-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Nova Campanha
+        </span>
+      </button>
+
+      <div
+        class="relative items-center w-full drop-shadow-md justify-center p-1 flex overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+        <div
+          class="relative w-full p-2 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+          <div class="flex flex-row gap-2 h-full w-full">
+            <div class="w-full">
+              <label for="first_name" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Pesquisar por
+                nome</label>
+              <input type="text" id="first_name"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Amanda Alves" required />
+            </div>
+            <form class="w-1/2">
+              <label for="teste1" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Ordenar por
+              </label>
+              <select id="teste1"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected>Selecione...</option>
+                <option value="US">Data registro (crescente)</option>
+                <option value="CA">Data registro (decrescente)</option>
+                <option value="FR">Nome (crescente)</option>
+                <option value="DE">Nome (decrescente)</option>
+              </select>
+            </form>
+            <form class="w-1/2">
+              <label for="teste2" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Ordenar por
+              </label>
+              <select id="teste2"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected>Selecione...</option>
+                <option value="US">Data registro (crescente)</option>
+                <option value="CA">Data registro (decrescente)</option>
+                <option value="FR">Nome (crescente)</option>
+                <option value="DE">Nome (decrescente)</option>
+              </select>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4 pb-20">
+      @if (campanhas.Count == 0)
+      {
+        <div class="h-40 flex w-full justify-center items-center text-start">
+          <div class="text-base font-semibold text-gray-500">
+            Nenhuma campanha cadastrada
+          </div>
+        </div>
+      }
+      else
+      {
+        foreach (var item in campanhas)
+        {
+          <div class="flex flex-col gap-8 bg-zinc-100 p-3 rounded-lg">
+            <div class="flex flex-row gap-8 h-full p-3">
+
+
+              <div class="text-start flex gap-1 flex-col">
+                <div class="text-base font-normal text-gray-600">Nome</div>
+                <div class="text-base font-semibold py-1 w-56">@item.Nome</div>
+              </div>
+              <div class="text-start flex gap-1 flex-col">
+                <div class="text-base font-normal text-gray-600">Descrição</div>
+                <div class="text-base font-semibold py-1">@item.Descricao</div>
+              </div>
+
+
+              <div class="text-start flex gap-1 flex-col">
+                <div class="text-base font-normal text-gray-600">Data Inicio</div>
+                <div class="text-base font-semibold py-1 line-clamp-1 w-56">
+                  @item.DataInicio
+                </div>
+              </div>
+
+              <div class="text-start flex gap-1 flex-col">
+                <div class="text-base font-normal text-gray-600">Data Fim</div>
+                <div class="text-base font-semibold py-1">@item.DataFim</div>
+              </div>
+
+
+              <div class="text-start flex gap-1 flex-col">
+                <div class="text-base font-normal text-gray-600">Criador</div>
+                <div class="text-base font-semibold py-1">@item.Criador?.Nome</div>
+              </div>
+             
+            </div>
+
+            <div class="flex w-full justify-end">
+              <div class="bg-white rounded-md p-3 flex gap-6 flex-row justify-center items-center">
+                <button @onclick="() => openModalUpdateCampanha(item)" data-modal-target="new-entity-modal"
+                  data-modal-toggle="new-entity-modal"
+                  class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-blue-600 group-hover:from-zinc-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
+                  <span
+                    class="relative p-1 px-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-sm group-hover:bg-opacity-0">
+                    Editar Campanha
+                  </span>
+                </button>
+
+                <button @onclick="() => deleteCampanha(item)"
+                  class="relative items-center drop-shadow-md justify-center p-[2px] flex overflow-hidden text-sm font-medium text-gray-900 rounded group bg-gradient-to-br from-zinc-500 to-red-600 group-hover:from-zinc-400 group-hover:to-red-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-zinc-200 dark:focus:ring-zinc-800">
+                  <span
+                    class="relative p-1 px-4 h-full flex items-center justify-center transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-sm group-hover:bg-opacity-0">
+                    Excluir Campanha
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <div id="new-entity-modal" tabindex="-1" aria-hidden="true" data-modal-backdrop="static"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          @if (isUpdate)
+          {
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Editar Campanha
+            </h3>
+          }
+          else
+          {
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+              Cadastrar Campanha
+            </h3>
+          }
+
+          <button type="button" @onclick="clearCampanhaInputs"
+            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-hide="new-entity-modal">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <div class="p-4 md:p-5">
+          <form class="space-y-4" @onsubmit="SaveOrUpdateCampanha">
+            <div>
+              <label for="nameFantasy" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Nome
+              </label>
+              <input name="nameFantasy" id="nameFantasy" @bind="campanhaDoacao.Nome"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="Nome " required />
+            </div>
+
+            <div>
+              <label for="Descricao" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Descrição
+              </label>
+
+
+              <input name="descricao" id="descricao" @bind="campanhaDoacao.Descricao" type="text"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="" required />
+            </div>
+
+            <div>
+              <div id="date-range-picker"  class="flex items-center">
+                <div class="relative">
+                  
+                  <label for="dataInicio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Data Inicial
+                  </label>
+                  <input id="dataInicio" name="dataInicio" type="date" datepicker-format="dd-mm-yyyy"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5  px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder=""  @bind="campanhaDoacao.DataInicio">
+                </div>
+                <span class="px-5 pt-3  text-gray-500">á</span>
+                <div class="relative">
+              
+                  <label for="dataFim" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Data Final
+                  </label>
+                  <input id="dataFim" name="dataFim" type="date" datepicker-format="dd-mm-yyyy"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full    p-2.5 px-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="" @bind="campanhaDoacao.DataFim">
+                </div>
+              </div>
+
+            </div>
+            <div>
+              <label for="criador" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Criador
+              </label>
+
+              <select @bind="campanhaDoacao.IdCriadorFk" id="criador"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                <option value="">Selecione o Criador</option>
+                @if (entidades != null)
+                {
+                  @foreach (var entidade in entidades)
+                  {
+                    <option value="@entidade.Id">@entidade.Nome</option>
+                  }
+                }
+              </select>
+            </div>
+
+            <button type="submit"
+              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              data-modal-hide="new-entity-modal">
+              @if (isUpdate)
+              {
+                <span>Atualizar Campanha</span>
+              }
+              else
+              {
+                <span>Cadastrar Campanha</span>
+              }
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+  protected override async Task OnAfterRenderAsync(bool isFirstRender)
+  {
+    if (isFirstRender)
+    {
+      await JS.InvokeVoidAsync("initFlowbite");
+    }
+  }
+  private List<Entity> entidades = new List<Entity>();
+  protected override async Task OnInitializedAsync()
+  {
+    await getAllCampanhas();
+    entidades = await entidadeService.GetAllEntidades();
+  }
+
+  public CampanhaDoacao campanhaDoacao = new CampanhaDoacao();
+
+  private List<CampanhaDoacao> campanhas = new List<CampanhaDoacao>();
+
+  private bool isUpdate = false;
+
+  private void openModalUpdateCampanha(CampanhaDoacao campanhaUpdate)
+  {
+    campanhaDoacao.Id = campanhaUpdate.Id;
+    campanhaDoacao.Nome = campanhaUpdate.Nome;
+    campanhaDoacao.Descricao = campanhaUpdate.Descricao;
+    campanhaDoacao.DataInicio = campanhaUpdate.DataInicio;
+    campanhaDoacao.DataFim = campanhaUpdate.DataFim;
+    campanhaDoacao.IdCriadorFk = campanhaUpdate.IdCriadorFk;
+
+    isUpdate = true;
+  }
+
+  private async Task SaveOrUpdateCampanha()
+  {
+    if (isUpdate)
+    {
+      Console.WriteLine("Update");
+      await campanhaService.Update(campanhaDoacao);
+    }
+    else
+    {
+      var newCampanha = new CampanhaDoacao()
+        {
+          Nome = campanhaDoacao.Nome,
+          Descricao = campanhaDoacao.Descricao,
+          DataInicio = campanhaDoacao.DataInicio ?? DateTime.Now,
+          DataFim = campanhaDoacao.DataFim,
+          IdCriadorFk = campanhaDoacao.IdCriadorFk,
+          Criador = entidades.FirstOrDefault(e => e.Id == campanhaDoacao.IdCriadorFk),
+        };
+
+      
+      await campanhaService.Add(newCampanha);
+    }
+
+    await getAllCampanhas();
+    clearCampanhaInputs();
+    StateHasChanged();
+  }
+
+  private async Task deleteCampanha(CampanhaDoacao campanha)
+  {
+    await campanhaService.Delete(campanha.Id!.Value);
+    await getAllCampanhas();
+  }
+
+  private async Task getAllCampanhas()
+  {
+    campanhas = [];
+
+    campanhas = await campanhaService.GetAllCampanhas();
+
+    var entidades = await entidadeService.GetAllEntidades();
+
+    foreach (var campanha in campanhas)
+    {
+      campanha.Criador = entidades.FirstOrDefault(e => e.Id == campanha.IdCriadorFk);
+    }
+  }
+
+  private void clearCampanhaInputs()
+  {
+    campanhaDoacao.Nome = "";
+    campanhaDoacao.Descricao = "";
+    campanhaDoacao.DataInicio = DateTime.Now;
+    campanhaDoacao.DataFim = DateTime.Now;
+    campanhaDoacao.IdCriadorFk = null;
+    campanhaDoacao.Criador = null;
+
+    isUpdate = false;
+
+    Console.WriteLine("Clear" + isUpdate);
+
+
+  }
+
+}

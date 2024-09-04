@@ -9,7 +9,7 @@ create table entidade
     nome_fantasia varchar(50),
     cpf           varchar(14),
     cnpj          varchar(18),
-    email         varchar(50) not null,
+    email         varchar(100) not null,
     telefone      varchar(16),
     is_pessoa_fisica boolean not null,
     created_at    timestamp default current_timestamp
@@ -23,12 +23,12 @@ create table item
     created_at timestamp default current_timestamp
 );
 
-create table campanha
+create table campanha_doacao
 (
     id            int primary key  auto_increment,
     nome          varchar(50) not null,
     descricao     varchar(400),
-    data_inicio   date        not null,
+    data_inicio   date not null,
     data_fim      date,
 
     id_criador_fk int         not null,
@@ -45,7 +45,7 @@ create table doacao
     id_entidade_recebedor_fk int,
     foreign key (id_entidade_recebedor_fk) references entidade (id),
     id_campanha_doacao_fk    int,
-    foreign key (id_campanha_doacao_fk) references campanha (id)
+    foreign key (id_campanha_doacao_fk) references campanha_doacao (id)
 );
 
 create table item_doacao
@@ -57,3 +57,7 @@ create table item_doacao
     id_item_fk   int,
     foreign key (id_item_fk) references item (id)
 );
+
+
+
+

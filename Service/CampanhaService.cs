@@ -12,7 +12,7 @@ namespace doe_mais_ads.Service
         {
             _context = con;
         }
-        public async Task<List<CampanhaDoacao>>? Campanhas()
+        public async Task<List<CampanhaDoacao>>?    GetAllCampanhas()
         {
             return await _context.Campanhas.Include(c => c.Criador).ToListAsync();
         }
