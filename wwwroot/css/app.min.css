@@ -1063,6 +1063,10 @@ input:checked + .toggle-bg {
   border-width: 0;
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .visible {
   visibility: visible;
 }
@@ -1095,6 +1099,11 @@ input:checked + .toggle-bg {
   inset: 0px;
 }
 
+.inset-y-0 {
+  top: 0px;
+  bottom: 0px;
+}
+
 .bottom-0 {
   bottom: 0px;
 }
@@ -1115,8 +1124,28 @@ input:checked + .toggle-bg {
   right: 0px;
 }
 
+.start-0 {
+  inset-inline-start: 0px;
+}
+
 .top-0 {
   top: 0px;
+}
+
+.top-20 {
+  top: 5rem;
+}
+
+.top-5 {
+  top: 1.25rem;
+}
+
+.top-2 {
+  top: 0.5rem;
+}
+
+.top-6 {
+  top: 1.5rem;
 }
 
 .z-10 {
@@ -1137,6 +1166,11 @@ input:checked + .toggle-bg {
 
 .z-50 {
   z-index: 50;
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .mb-1 {
@@ -1742,6 +1776,10 @@ input:checked + .toggle-bg {
 
 .pr-3 {
   padding-right: 0.75rem;
+}
+
+.ps-10 {
+  padding-inline-start: 2.5rem;
 }
 
 .ps-3 {
