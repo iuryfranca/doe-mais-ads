@@ -18,17 +18,20 @@ namespace doe_mais_ads.Service
             return await _context.Entities.ToListAsync();
         }
 
-        public async Task<List<Entity>> GetPesquisaEntidade(string pesquisa)
+        public List<Entity> GetPesquisaEntidade(string pesquisa)
         {
-            return await _context
+            return _context
                 .Entities.Where(c =>
-                    (c.Nome != null && c.Nome.Contains(pesquisa))
-                    || (c.Email != null && c.Email.Contains(pesquisa))
-                    || (c.Cpf != null && c.Cpf.Contains(pesquisa))
-                    || (c.NomeFantasia != null && c.NomeFantasia.Contains(pesquisa))
-                    || (c.Cnpj != null && c.Cnpj.Contains(pesquisa))
+                    (c.Nome != null && c.Nome.ToLower().Contains(pesquisa.ToLower()))
+                    || (c.Email != null && c.Email.ToLower().Contains(pesquisa.ToLower()))
+                    || (c.Cpf != null && c.Cpf.ToLower().Contains(pesquisa.ToLower()))
+                    || (
+                        c.NomeFantasia != null
+                        && c.NomeFantasia.ToLower().Contains(pesquisa.ToLower())
+                    )
+                    || (c.Cnpj != null && c.Cnpj.ToLower().Contains(pesquisa.ToLower()))
                 )
-                .ToListAsync();
+                .ToList();
         }
 
         public async Task<Entity?> GetEntidade(int id)
