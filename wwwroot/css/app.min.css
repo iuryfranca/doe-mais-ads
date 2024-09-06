@@ -1155,6 +1155,10 @@ input:checked + .toggle-bg {
   margin-left: 0.75rem;
 }
 
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .ms-2 {
   margin-inline-start: 0.5rem;
 }
@@ -1748,8 +1752,8 @@ input:checked + .toggle-bg {
   padding-top: 0.5rem;
 }
 
-.pt-3 {
-  padding-top: 0.75rem;
+.pt-5 {
+  padding-top: 1.25rem;
 }
 
 .text-left {

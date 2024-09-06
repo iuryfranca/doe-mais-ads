@@ -11,6 +11,9 @@ public class Doacao
     [Column("descricao")]
     public string? Descricao { get; set; }
 
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
+
     [Column("id_entidade_doador_fk")]
     public int? IdEntidadeDoadorFk { get; set; }
 

@@ -28,4 +28,7 @@ public class Entity
 
     [Column("is_pessoa_fisica")]
     public bool IsPessoaFisica { get; set; }
+
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
 }

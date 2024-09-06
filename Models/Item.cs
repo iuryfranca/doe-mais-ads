@@ -13,4 +13,7 @@ public class Item
 
     [Column("descricao")]
     public string? Descricao { get; set; }
+
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
 }

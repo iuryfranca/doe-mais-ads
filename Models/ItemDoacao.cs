@@ -11,6 +11,9 @@ public class ItemDoacao
     [Column("quantidade")]
     public int? Quantidade { get; set; }
 
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
+
     [Column("id_doacao_fk")]
     public int? IdDoacaoFk { get; set; }
 

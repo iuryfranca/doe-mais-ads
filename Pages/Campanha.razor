@@ -118,7 +118,7 @@
                 <div class="text-base font-normal text-gray-600">Criador</div>
                 <div class="text-base font-semibold py-1">@item.Criador?.Nome</div>
               </div>
-             
+
             </div>
 
             <div class="flex w-full justify-end">
@@ -198,19 +198,19 @@
             </div>
 
             <div>
-              <div id="date-range-picker"  class="flex items-center">
-                <div class="relative">
-                  
+              <div id="date-range-picker" class="flex flex-row justify-center w-full gap-2 items-center">
+                <div class="relative  w-full">
                   <label for="dataInicio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Data Inicial
                   </label>
                   <input id="dataInicio" name="dataInicio" type="date" datepicker-format="dd-mm-yyyy"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5  px-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder=""  @bind="campanhaDoacao.DataInicio">
+                    placeholder="" @bind="campanhaDoacao.DataInicio">
                 </div>
-                <span class="px-5 pt-3  text-gray-500">á</span>
-                <div class="relative">
-              
+
+                <span class="pt-5">até</span>
+
+                <div class="relative w-full">
                   <label for="dataFim" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Data Final
                   </label>
@@ -310,7 +310,7 @@
           Criador = entidades.FirstOrDefault(e => e.Id == campanhaDoacao.IdCriadorFk),
         };
 
-      
+
       await campanhaService.AddCampanha(newCampanha);
     }
 
@@ -351,8 +351,5 @@
     isUpdate = false;
 
     Console.WriteLine("Clear" + isUpdate);
-
-
   }
-
 }

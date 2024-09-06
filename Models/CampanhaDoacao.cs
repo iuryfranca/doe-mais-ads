@@ -20,6 +20,9 @@ public class CampanhaDoacao
     [Column("data_fim")]
     public DateTime? DataFim { get; set; }
 
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
+
     [Column("id_criador_fk")]
     public int? IdCriadorFk { get; set; }
 

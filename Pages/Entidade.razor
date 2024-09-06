@@ -52,27 +52,27 @@
                         </div>
 
                         <form class="w-1/2">
-                            <label for="teste1"
+                            <label for="select-order"
                                 class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Ordenar por
                             </label>
-                            <select id="teste1"
+                            <select id="select-order" @onchange="filterByOrder"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option selected>Selecione...</option>
-                                <option value="US">Data registro (crescente)</option>
-                                <option value="CA">Data registro (decrescente)</option>
-                                <option value="FR">Nome (crescente)</option>
-                                <option value="DE">Nome (decrescente)</option>
+                                <option value="DATA_CRES">Data registro (crescente)</option>
+                                <option value="DATA_DECR">Data registro (decrescente)</option>
+                                <option value="NOME_CRES">Nome (crescente)</option>
+                                <option value="NOME_DECR">Nome (decrescente)</option>
                             </select>
                         </form>
                         <form class="w-1/2">
-                            <label for="teste2"
+                            <label for="select-tipo-pessoa"
                                 class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Tipo
                             </label>
-                            <select id="teste2"
+                            <select id="select-tipo-pessoa" @onchange="filterByType"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>Selecione...</option>
-                                <option value="US">Pessoa física</option>
-                                <option value="CA">Pessoa jurídica</option>
+                                <option value="CLEAR" selected>Selecione...</option>
+                                <option value="PF">Pessoa física</option>
+                                <option value="PJ">Pessoa jurídica</option>
                             </select>
                         </form>
                     </div>
@@ -393,6 +393,7 @@
         disableCheckJuridica = true;
         disableCheckFisica = false;
     }
+
     private void onChangeCheckboxFisica()
     {
         checkJuridica = false;
@@ -473,6 +474,46 @@
         }
 
         loadingEntities = false;
+    }
+
+    private async Task filterByType(ChangeEventArgs e)
+    {
+        loadingEntities = true;
+
+        entities = await entidadeService.GetAllEntidades();
+
+        if (e.Value.ToString() == "PF")
+        {
+            entities = entities.Where(x => x.IsPessoaFisica == true).ToList();
+        }
+        else if (e.Value.ToString() == "PJ")
+        {
+            entities = entities.Where(x => x.IsPessoaFisica == false).ToList();
+        }
+
+        loadingEntities = false;
+    }
+
+    private async Task filterByOrder(ChangeEventArgs e)
+    {
+        entities = await entidadeService.GetAllEntidades();
+
+        if (e.Value.ToString() == "DATA_CRES")
+        {
+            entities = entities.OrderBy(x => x.CreatedAt).ToList();
+        }
+        else if (e.Value.ToString() == "DATA_DECR")
+        {
+            entities = entities.OrderByDescending(x => x.CreatedAt).ToList();
+        }
+        else if (e.Value.ToString() == "NOME_CRES")
+        {
+            entities = entities.OrderBy(x => x.Nome).ToList();
+        }
+        else if (e.Value.ToString() == "NOME_DECR")
+        {
+            entities = entities.OrderByDescending(x => x.Nome).ToList();
+        }
     }
 
     private void clearEntityInputs()
