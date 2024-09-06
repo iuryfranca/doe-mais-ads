@@ -296,7 +296,7 @@
     if (isUpdate)
     {
       Console.WriteLine("Update");
-      await campanhaService.Update(campanhaDoacao);
+      await campanhaService.UpdateCampanha(campanhaDoacao);
     }
     else
     {
@@ -311,7 +311,7 @@
         };
 
       
-      await campanhaService.Add(newCampanha);
+      await campanhaService.AddCampanha(newCampanha);
     }
 
     await getAllCampanhas();

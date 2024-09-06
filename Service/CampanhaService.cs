@@ -12,7 +12,8 @@ namespace doe_mais_ads.Service
         {
             _context = con;
         }
-        public async Task<List<CampanhaDoacao>>?    GetAllCampanhas()
+
+        public async Task<List<CampanhaDoacao>>? GetAllCampanhas()
         {
             return await _context.Campanhas.Include(c => c.Criador).ToListAsync();
         }
@@ -27,7 +28,7 @@ namespace doe_mais_ads.Service
                 )
                 .ToListAsync();
         }
-      
+
         public async Task<CampanhaDoacao?> GetCampanha(int id)
         {
             return await _context
@@ -36,7 +37,7 @@ namespace doe_mais_ads.Service
                 .FirstOrDefaultAsync();
         }
 
-        public async Task Add(CampanhaDoacao campanha)
+        public async Task AddCampanha(CampanhaDoacao campanha)
         {
             if (campanha != null)
             {
@@ -49,17 +50,27 @@ namespace doe_mais_ads.Service
             }
         }
 
-        public async Task Update(CampanhaDoacao campanha)
+        public async Task UpdateCampanha(CampanhaDoacao campanha)
         {
-            if (campanha != null)
-            {
-                _context.Update(campanha);
-                await _context.SaveChangesAsync();
-            }
-            else
+            var campanhaToUpdate = await _context
+                .Campanhas.Where(e => e.Id == campanha.Id)
+                .FirstOrDefaultAsync();
+
+            if (campanhaToUpdate == null)
             {
                 throw new ArgumentNullException("Campanha não pode ser nula");
             }
+
+            campanhaToUpdate.Id = campanha.Id;
+            campanhaToUpdate.Nome = campanha.Nome;
+            campanhaToUpdate.Descricao = campanha.Descricao;
+            campanhaToUpdate.DataInicio = campanha.DataInicio;
+            campanhaToUpdate.DataFim = campanha.DataFim;
+            campanhaToUpdate.Criador = campanha.Criador;
+            campanhaToUpdate.IdCriadorFk = campanha.IdCriadorFk;
+
+            _context.Update(campanhaToUpdate);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
