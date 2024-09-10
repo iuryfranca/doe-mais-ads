@@ -295,7 +295,6 @@
   {
     if (isUpdate)
     {
-      Console.WriteLine("Update");
       await campanhaService.UpdateCampanha(campanhaDoacao);
     }
     else
@@ -305,7 +304,7 @@
           Nome = campanhaDoacao.Nome,
           Descricao = campanhaDoacao.Descricao,
           DataInicio = campanhaDoacao.DataInicio ?? DateTime.Now,
-          DataFim = campanhaDoacao.DataFim,
+          DataFim = campanhaDoacao.DataFim ?? DateTime.Now + TimeSpan.FromDays(30),
           IdCriadorFk = campanhaDoacao.IdCriadorFk,
           Criador = entidades.FirstOrDefault(e => e.Id == campanhaDoacao.IdCriadorFk),
         };

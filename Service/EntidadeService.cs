@@ -43,6 +43,7 @@ namespace doe_mais_ads.Service
         {
             if (entidade != null)
             {
+                entidade.CreatedAt = DateTime.Now;
                 await _context.Entities.AddAsync(entidade);
                 await _context.SaveChangesAsync();
             }

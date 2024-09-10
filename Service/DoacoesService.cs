@@ -34,6 +34,7 @@ namespace doe_mais_ads.Service
         {
             if (doacoes != null)
             {
+                doacoes.CreatedAt = DateTime.Now;
                 await _context.Doacoes.AddAsync(doacoes);
                 await _context.SaveChangesAsync();
             }

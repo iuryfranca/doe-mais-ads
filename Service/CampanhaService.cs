@@ -41,6 +41,8 @@ namespace doe_mais_ads.Service
         {
             if (campanha != null)
             {
+                campanha.CreatedAt = DateTime.Now;
+
                 await _context.Campanhas.AddAsync(campanha);
                 await _context.SaveChangesAsync();
             }

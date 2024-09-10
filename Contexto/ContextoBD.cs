@@ -11,6 +11,6 @@ public class ContextoBD : DbContext
     public DbSet<Entity> Entities { get; set; }
     public DbSet<Item> Itens { get; set; }
     public DbSet<Doacao> Doacoes { get; set; }
-    public DbSet<ItemDoacao> Items { get; set; }
+    public DbSet<ItemDoacao> ItemsDoacaoes { get; set; }
     public DbSet<CampanhaDoacao> Campanhas { get; set; }
 }
